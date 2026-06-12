@@ -1,0 +1,98 @@
+// Modern FinTech Design System — Vue Green Dark
+// ================================
+
+// ── Brand Palette ──────────────────────────────
+$primary-color: #42b983;
+$primary-light: #68c99e;
+$primary-dark: #369a6d;
+$success-color: #42b983;
+$warning-color: #e6a23c;
+$danger-color: #f56c6c;
+$info-color: #909399;
+
+// ── Neutral Scale ─────────────────────────────
+$gray-50: #f8f9fa;
+$gray-100: #f0f1f2;
+$gray-200: #e4e7ed;
+$gray-300: #c0c4cc;
+$gray-400: #909399;
+$gray-500: #6b7280;
+$gray-600: #4a5568;
+$gray-700: #2d3748;
+$gray-800: #1a202c;
+$gray-900: #111827;
+
+// ── Background ─────────────────────────────────
+$bg-page: #ffffff;
+$bg-surface: #ffffff;
+$bg-elevated: #ffffff;
+
+// ── Spacing Scale ──────────────────────────────
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+
+// ── Typography ─────────────────────────────────
+$font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+  'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+$font-family-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code',
+  monospace;
+
+$font-size-xs: 12px;
+$font-size-sm: 13px;
+$font-size-base: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+$font-size-3xl: 30px;
+$font-size-4xl: 36px;
+
+// ── Border Radius ─────────────────────────────
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 14px;
+$radius-xl: 18px;
+$radius-full: 9999px;
+
+// ── Shadows ───────────────────────────────────
+$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06),
+  0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06),
+  0 2px 4px rgba(0, 0, 0, 0.04);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08),
+  0 4px 8px rgba(0, 0, 0, 0.04);
+$shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.1),
+  0 6px 12px rgba(0, 0, 0, 0.05);
+
+// ── Transitions ───────────────────────────────
+$transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Layout ────────────────────────────────────
+$header-height: 60px;
+$sidebar-width: 240px;
+$sidebar-collapsed-width: 64px;
+$footer-height: 56px;
+$content-max-width: 1400px;
+
+// ── Breakpoints ───────────────────────────────
+$breakpoint-xs: 480px;
+$breakpoint-sm: 768px;
+$breakpoint-md: 992px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1920px;
+
+// ── Legacy compat aliases ─────────────────────
+$border-radius-sm: $radius-sm;
+$border-radius-md: $radius-md;
+$border-radius-lg: $radius-lg;
+$border-radius-xl: $radius-xl;
+$box-shadow-light: $shadow-sm;
+$box-shadow-medium: $shadow-md;
+$box-shadow-heavy: $shadow-lg;

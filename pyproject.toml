@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sinoquant"
+version = "1.0.0-preview"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # 后端API框架和服务器
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-multipart>=0.0.6",
+
+    # 数据库和缓存
+    "motor>=3.3.0",
+    "pymongo>=4.0.0",
+    "redis>=6.2.0",
+
+    # 认证和安全
+    "PyJWT>=2.0.0",
+    "bcrypt>=4.0.0",
+
+    # 任务调度和异步
+    "apscheduler>=3.10.0",
+
+    # HTTP客户端
+    "httpx>=0.24.0",
+
+    # 日志处理
+    "concurrent-log-handler>=0.9.24",  # Windows 友好的日志轮转处理器
+
+    # 数据源和金融数据
+    "akshare>=1.16.98",
+    "baostock>=0.8.8",
+    "tushare>=1.4.21",
+
+    # AI和LLM
+    "chromadb>=1.0.12",
+    "dashscope>=1.20.0",
+    "langchain-anthropic>=0.3.15",
+    "langchain-google-genai>=2.1.12",  # 修复 client_options 未定义错误
+    "langchain-openai>=0.3.23",
+    "langgraph>=0.4.8",
+    "openai>=1.0.0,<2.0.0",
+
+    # 数据处理和分析
+    "pandas>=2.3.0",
+    "numpy>=1.24.0",
+    "polars>=1.0.0",
+
+    # 量化交易（vnpy）
+    "vnpy>=4.3.0",
+
+    # 网络爬虫和解析
+    "feedparser>=6.0.11",
+    "requests>=2.32.4",
+
+    # 文档和格式化
+    "markdown>=3.4.0",
+    "pypandoc>=1.11",
+    "python-docx>=0.8.11",  # Word文档处理，用于修复文本方向
+    "pdfkit>=1.0.0",  # PDF生成工具，需要wkhtmltopdf
+
+    # 工具和辅助
+    "python-dotenv>=1.0.0",
+    "pytz>=2025.2",
+    "questionary>=2.1.0",
+    "rich>=14.0.0",
+    "setuptools>=80.9.0",
+    "toml>=0.10.2",
+    "typing-extensions>=4.14.0",
+]
+
+[project.optional-dependencies]
+qianfan = ["qianfan>=0.4.12"]
+
+[project.scripts]
+sinoquant = "main:main"
+
+[tool.setuptools.packages.find]
+include = ["sinoquant*"]
+exclude = ["tests*", "docs*", "scripts*", "data*", "logs*", "reports*", "results*", "eval_results*", "upstream_contribution*"]

@@ -1,0 +1,256 @@
+// Modern FinTech Global Styles — Vue Green Edition
+// ================================
+
+// ── Reset ──────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--el-text-color-primary);
+  background: var(--el-bg-color-page);
+}
+
+// ── Typography ─────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  color: var(--el-text-color-primary);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+h1 { font-size: 28px; }
+h2 { font-size: 24px; }
+h3 { font-size: 20px; }
+h4 { font-size: 17px; }
+h5 { font-size: 15px; }
+h6 { font-size: 14px; }
+
+a {
+  color: #42b983;
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover { color: #369a6d; }
+}
+
+// ── Scrollbar ──────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #c0c4cc;
+  border-radius: 3px;
+  &:hover { background: #909399; }
+}
+
+::selection { background: rgba(66, 185, 131, 0.25); color: var(--el-text-color-primary); }
+
+// ── Element Plus CSS Variables (Light) ──────────
+:root {
+  --el-color-primary: #42b983 !important;
+  --el-color-primary-light-3: #68c99e !important;
+  --el-color-primary-light-5: #8dd8b4 !important;
+  --el-color-primary-light-7: #b3e7cc !important;
+  --el-color-primary-light-8: #d9f3e5 !important;
+  --el-color-primary-light-9: #ecfaf3 !important;
+  --el-color-primary-dark-2: #369a6d !important;
+
+  --el-color-success: #42b983 !important;
+  --el-color-warning: #e6a23c !important;
+  --el-color-danger: #f56c6c !important;
+  --el-color-info: #909399 !important;
+
+  --el-border-radius-base: 10px !important;
+  --el-border-radius-small: 8px !important;
+
+  --el-bg-color-page: #ffffff !important;
+
+  --el-button-bg-color: #42b983 !important;
+  --el-button-border-color: #42b983 !important;
+  --el-button-hover-bg-color: #369a6d !important;
+  --el-button-hover-border-color: #369a6d !important;
+  --el-button-active-bg-color: #2d8a5e !important;
+  --el-button-active-border-color: #2d8a5e !important;
+}
+
+// ── Buttons ─────────────────────────────────────
+.el-button {
+  border-radius: 10px !important;
+  font-weight: 520;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+
+  // solid fill buttons only — link/text/plain use their own colors
+  &.el-button--primary:not(.is-link):not(.is-text):not(.is-plain) {
+    --el-button-bg-color: #42b983;
+    --el-button-border-color: #42b983;
+    --el-button-hover-bg-color: #369a6d;
+    --el-button-hover-border-color: #369a6d;
+    --el-button-active-bg-color: #2d8a5e;
+    --el-button-active-border-color: #2d8a5e;
+    background-color: #42b983 !important;
+    border-color: #42b983 !important;
+    color: #fff !important;
+
+    &:hover {
+      background-color: #369a6d !important;
+      border-color: #369a6d !important;
+    }
+    &:active {
+      background-color: #2d8a5e !important;
+      border-color: #2d8a5e !important;
+    }
+  }
+
+  // solid fill buttons only — skip link/text/plain variants
+  &.el-button--success:not(.is-link):not(.is-text):not(.is-plain) { background-color: #42b983 !important; border-color: #42b983 !important; }
+  &.el-button--warning:not(.is-link):not(.is-text):not(.is-plain) { background-color: #e6a23c !important; border-color: #e6a23c !important; }
+  &.el-button--danger:not(.is-link):not(.is-text):not(.is-plain) { background-color: #f56c6c !important; border-color: #f56c6c !important; }
+}
+
+// ── Cards ───────────────────────────────────────
+.el-card {
+  border-radius: 14px !important;
+  border: 1px solid var(--el-border-color-light);
+  box-shadow: var(--el-box-shadow-light, 0 2px 8px rgba(0, 0, 0, 0.04));
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+
+  &:hover {
+    box-shadow: var(--el-box-shadow, 0 8px 24px rgba(0, 0, 0, 0.08));
+    border-color: var(--el-text-color-disabled);
+  }
+
+  .el-card__header {
+    border-bottom: 1px solid var(--el-border-color-lighter);
+    padding: 18px 24px;
+    font-weight: 650;
+    font-size: 16px;
+    color: var(--el-text-color-primary);
+    background: transparent;
+  }
+
+  .el-card__body { padding: 24px; }
+}
+
+// ── Menu ────────────────────────────────────────
+.el-menu {
+  border-right: none !important;
+  background: transparent;
+
+  .el-menu-item,
+  .el-sub-menu__title {
+    margin: 3px 10px;
+    border-radius: 10px;
+    font-weight: 480;
+    font-size: 14px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #e0e0e0;
+    }
+
+    &.is-active {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      font-weight: 580;
+    }
+  }
+}
+
+// ── Tables ──────────────────────────────────────
+.el-table {
+  border-radius: 12px;
+  overflow: hidden;
+
+  th.el-table__cell {
+    background: var(--el-table-header-bg-color, var(--el-fill-color-light));
+    color: var(--el-text-color-secondary);
+    font-weight: 580;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    border-bottom: 2px solid var(--el-border-color-light);
+  }
+
+  td.el-table__cell { border-bottom: 1px solid var(--el-border-color-lighter); }
+  .el-table__row:hover > td.el-table__cell { background: rgba(66, 185, 131, 0.03); }
+}
+
+// ── Inputs ──────────────────────────────────────
+.el-input {
+  --el-input-border-radius: 10px;
+
+  .el-input__wrapper {
+    box-shadow: 0 0 0 1px var(--el-border-color) inset;
+    transition: box-shadow 0.2s;
+
+    &:hover { box-shadow: 0 0 0 1px var(--el-text-color-disabled) inset; }
+    &.is-focus { box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.3) inset; }
+  }
+}
+
+// ── Dialog ──────────────────────────────────────
+.el-dialog {
+  border-radius: 18px !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+
+  .el-dialog__header { padding: 24px 28px 16px; }
+  .el-dialog__body { padding: 8px 28px 24px; }
+}
+
+// ── Tabs ────────────────────────────────────────
+.el-tabs .el-tabs__item {
+  font-weight: 500;
+  &.is-active { font-weight: 650; }
+}
+
+// ── Tags ────────────────────────────────────────
+.el-tag { border-radius: 8px; font-weight: 500; }
+
+// ── Pagination ──────────────────────────────────
+.el-pagination .el-pager li {
+  border-radius: 8px;
+  &.is-active { background: #42b983; }
+}
+
+// ── Progress ────────────────────────────────────
+.el-progress-bar__outer { border-radius: 99px; background: var(--el-fill-color); }
+.el-progress-bar__inner { border-radius: 99px; background: #42b983; }
+
+// ── Utility ─────────────────────────────────────
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.gap-sm { gap: 8px; }
+.gap-md { gap: 16px; }
+.gap-lg { gap: 24px; }
+
+.page-header {
+  margin-bottom: 24px;
+  .page-title {
+    font-size: 24px;
+    font-weight: 650;
+    color: var(--el-text-color-primary);
+    letter-spacing: -0.02em;
+    margin: 0 0 4px;
+  }
+  .page-description { font-size: 14px; color: var(--el-text-color-secondary); margin: 0; }
+}
+
+@media (max-width: 768px) { .mobile-hidden { display: none !important; } }
+@media (min-width: 769px) { .desktop-hidden { display: none !important; } }

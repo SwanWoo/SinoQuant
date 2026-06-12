@@ -1,0 +1,148 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    image: sinoquant-backend:v0.0.0-preview
+    container_name: sinoquant-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+      - ./sinoquant:/app/sinoquant
+      - ./web:/app/web
+      - ./config:/app/config
+      - ./scripts:/app/scripts
+      - ./docs:/app/docs
+      - ./install:/app/install
+      - ./logs:/app/logs
+      - ./data:/app/data
+    env_file:
+      - .env.docker
+    dns:
+      - 114.114.114.114
+      - 223.5.5.5
+    environment:
+      PYTHONUNBUFFERED: 1
+      PYTHONDONTWRITEBYTECODE: 1
+      TZ: "Asia/Shanghai"
+      SINOQUANT_LOG_LEVEL: "INFO"
+      SINOQUANT_LOG_DIR: "/app/logs"
+      SINOQUANT_LOG_FILE: "/app/logs/sinoquant.log"
+      SINOQUANT_MONGODB_URL: mongodb://admin:sinoquant123@mongodb:27017/sinoquant?authSource=admin
+      SINOQUANT_REDIS_URL: redis://:sinoquant123@redis:6379
+      SINOQUANT_CACHE_TYPE: redis
+      DOCKER_CONTAINER: "true"
+      API_HOST: "0.0.0.0"
+      API_PORT: "8000"
+      CORS_ORIGINS: "http://localhost:3000,http://localhost:8080,http://localhost:5173"
+    command: python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  frontend:
+    image: node:22-alpine
+    container_name: sinoquant-frontend
+    working_dir: /workspace/frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/workspace
+      - frontend_node_modules:/workspace/frontend/node_modules
+    dns:
+      - 114.114.114.114
+      - 223.5.5.5
+    environment:
+      TZ: "Asia/Shanghai"
+      VITE_API_BASE_URL: "http://localhost:8000"
+      VITE_PROXY_TARGET: "http://backend:8000"
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    command: >
+      sh -lc "corepack enable &&
+      corepack prepare yarn@1.22.22 --activate &&
+      yarn install --frozen-lockfile --network-timeout 300000 &&
+      yarn dev --host 0.0.0.0 --port 3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:4.4
+    container_name: sinoquant-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: sinoquant123
+      MONGO_INITDB_DATABASE: sinoquant
+      TZ: "Asia/Shanghai"
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  redis:
+    image: redis:7-alpine
+    container_name: sinoquant-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    environment:
+      TZ: "Asia/Shanghai"
+    command: redis-server --appendonly yes --requirepass sinoquant123
+    volumes:
+      - redis_data:/data
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  mongodb_data:
+    driver: local
+    name: sinoquant_mongodb_data
+  redis_data:
+    driver: local
+    name: sinoquant_redis_data
+  frontend_node_modules:
+    driver: local
+    name: sinoquant_frontend_node_modules
+
+networks:
+  sinoquant-network:
+    driver: bridge
+    name: sinoquant-network

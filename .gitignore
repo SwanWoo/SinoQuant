@@ -1,0 +1,209 @@
+# Python环境和缓存
+env/
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+*.py[cod]
+*$py.class
+*.so
+
+# 环境变量文件 (包含敏感API密钥)
+.env
+.env.local
+.env.*.local
+.env.db
+.env.mongodb*
+frontend/dist
+frontend/node_modules
+frontend/.env*
+!frontend/src/**
+!frontend/public/**
+!frontend/index.html
+!frontend/vite.config.*
+!frontend/package*.json
+!frontend/tsconfig*.json
+!frontend/.eslintrc*
+!frontend/.prettier*
+
+# 系统文件
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# 数据文件
+*.csv
+*.xlsx
+*.xls
+
+# JSON文件规则
+config/*.json
+!config/*.json.example
+data/**/*.json
+eval_results/**/*.json
+*.cache.json
+*_cache.json
+
+# 项目特定目录
+eval_results/
+eval_data/
+results/
+logs/
+temp/
+/src/
+data/
+runtime/
+vendors/
+
+# 数据缓存目录
+/cache/
+dataflows/data_cache/
+sinoquant/dataflows/data_cache/
+enhanced_analysis_reports/
+
+# 股票数据缓存文件
+*_stock_data_*.txt
+*_stock_data_*.json
+*_stock_data_*.csv
+china_stocks/
+stock_cache/
+
+# IDE和编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vscode/settings.json
+
+# 测试和覆盖率报告
+.coverage
+.pytest_cache/
+htmlcov/
+
+# 文档构建
+docs/_build/
+site/
+
+# 贡献相关文档
+docs/contribution/
+
+# 版本预览文档
+docs/v1.0.0-preview/
+
+# AI工具目录
+.trae/
+.augment/
+
+# 优化计划文档
+docs/OPTIMIZATION_PLAN.md
+docs/OPTIMIZATION_PLAN_EN.md
+docs/README_OPTIMIZATION.md
+
+# 计划目录
+plan/
+
+# 临时开发调试文件
+test_*_conversion.py
+test_*_reports.py
+test_*_function.py
+test_export_simple.py
+test_wkhtmltopdf.py
+COMMIT_SUMMARY.md
+
+# 日志和临时文件
+*.log
+*.log*
+*.cache
+*.tmp
+*.temp
+*.pyc.*
+*.pyo.*
+
+# Node/TS build artifacts
+node_modules/
+*.tsbuildinfo
+frontend/.vite
+frontend/components.d.ts
+frontend/.eslintrc-auto-import.json
+frontend/auto-imports.d.ts
+frontend/tsconfig.tsbuildinfo
+frontend/package-lock.json
+
+# Installers and archives
+*.msi
+*.msix
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+*.xz
+*.archive
+*.bak
+*.old
+
+# Build outputs
+/dist/
+build/
+release/
+
+# 进程文件
+*.pid
+*.pid.lock
+
+# Historical backup snapshots
+data_backup_*/
+backups/
+
+# 过时的版本文档
+*_PREVIEW_README.md
+RELEASE_NOTES_PREVIEW.md
+DEEPSEEK_PREVIEW_README.md
+
+# Temporary test scripts
+test_mongodb_connection.py
+test_mongodb_fix.py
+verify_database_fix.py
+setup_mongodb_user.py
+
+# Local service scripts
+start_local_services.bat
+stop_local_services.bat
+
+# Local Nginx configuration
+nginx/local.nginx.conf
+
+# AI/tool-specific directories (personal, not project code)
+.claude/
+.codegraph/
+.agents/
+.mcp.json
+AGENTS.md
+CLAUDE.md
+skills-lock.json
+
+# Runtime artifacts
+appendonlydir/
+data/alpha_lab/
+data/analysis_results/
+
+# Environment files with secrets
+.env
+.env.docker
+.env.local
+.env.*.local
+
+# Root-level lock files (frontend has its own)
+package-lock.json
+pnpm-lock.yaml
+
+# Eval/benchmark scripts
+run_accuracy_eval.py
+run_macd_baseline.py
+run_single_model_baseline.py

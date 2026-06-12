@@ -1,0 +1,175 @@
+version: '3.8'
+
+# 前后端分离的 Docker Compose（保留旧版 docker-compose.yml 不变）
+services:
+  # FastAPI 后端服务
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    image: sinoquant-backend:latest
+    container_name: SinaQuant-backend
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    environment:
+      PYTHONUNBUFFERED: 1
+      PYTHONDONTWRITEBYTECODE: 1
+      TZ: "Asia/Shanghai"
+      SINOQUANT_LOG_LEVEL: "INFO"
+      SINOQUANT_MONGODB_URL: mongodb://admin:sinoquant123@mongodb:27017/sinoquant?authSource=admin
+      SINOQUANT_REDIS_URL: redis://:sinoquant123@redis:6379
+      SINOQUANT_CACHE_TYPE: redis
+      DOCKER_CONTAINER: "true"
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  # 前端静态站点服务（Nginx 托管 Vite 构建产物）
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    image: sinoquant-frontend:latest
+    container_name: SinaQuant-frontend
+    ports:
+      - "8080:80"
+    environment:
+      TZ: "Asia/Shanghai"
+    depends_on:
+      - backend
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  # MongoDB 数据库服务
+  mongodb:
+    image: mongo:4.4
+    container_name: sinoquant-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: sinoquant123
+      MONGO_INITDB_DATABASE: sinoquant
+      TZ: "Asia/Shanghai"
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis 缓存服务
+  redis:
+    image: redis:latest
+    container_name: sinoquant-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    environment:
+      TZ: "Asia/Shanghai"
+    command: redis-server --appendonly yes --requirepass sinoquant123
+    volumes:
+      - redis_data:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - sinoquant-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Redis Commander 管理界面（可选）
+  redis-commander:
+    image: ghcr.io/joeferner/redis-commander:latest
+    container_name: sinoquant-redis-commander
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379:0:sinoquant123
+    networks:
+      - sinoquant-network
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8081"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    profiles:
+      - management
+
+  # Mongo Express 管理界面（可选）
+  mongo-express:
+    image: mongo-express:latest
+    container_name: sinoquant-mongo-express
+    restart: unless-stopped
+    ports:
+      - "8082:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: sinoquant123
+      ME_CONFIG_MONGODB_URL: mongodb://admin:sinoquant123@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: sinoquant123
+    networks:
+      - sinoquant-network
+    depends_on:
+      - mongodb
+    profiles:
+      - management
+
+# 数据卷定义
+volumes:
+  mongodb_data:
+    driver: local
+    name: sinoquant_mongodb_data
+  redis_data:
+    driver: local
+    name: sinoquant_redis_data
+
+# 网络定义
+networks:
+  sinoquant-network:
+    driver: bridge
+    name: sinoquant-network

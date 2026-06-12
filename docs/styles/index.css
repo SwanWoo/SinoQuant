@@ -1,0 +1,32 @@
+/* Fix: Light mode footer text contrast */
+/* In light mode, the footer bg stays dark (#1e3a5f) but chrome-fg becomes dark (#2d3748) */
+/* This ensures footer text remains light/white against the dark footer background */
+
+:root[data-color-mode="light"] .beamer-footer-left,
+:root[data-color-mode="light"] .beamer-footer-center,
+:root[data-color-mode="light"] .beamer-footer-right {
+  color: #fff;
+}
+
+:root[data-color-mode="light"] .beamer-footer-center {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+:root[data-color-mode="light"] .beamer-nav-button {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+:root[data-color-mode="light"] .beamer-nav-button:hover:not(:disabled),
+:root[data-color-mode="light"] .beamer-nav-button:focus-visible {
+  color: #fff;
+}
+
+:root[data-color-mode="light"] .beamer-footer-page {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-color-mode="light"] .beamer-footer-toolbar {
+  color: rgba(255, 255, 255, 0.92);
+  border-color: rgba(255, 255, 255, 0.12);
+}
